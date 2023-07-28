@@ -22,10 +22,23 @@ contract SyntheticStaking {
     }
 
     modifier updateReward(address account) {
+        rewardPerTokenStored = rewardPerToken();
+        lastUpdateTime = block.timestamp;
+        // accessing there rewards from each user as gotten from the earned fucntion
+        reward[account] = earned(account);
+        //then we updater the user rewardPerTokenpaid
+        userRewardPerTokenPaid[account] = rewardPerTokenStored;
         _;
     }
 
-    function rewardPerToken() public view returns (uint) {}
+    function rewardPerToken() public view returns (uint) {
+        if (_totalSupply == 0) return 0;
+    //using the R(l(u,t)/l(t)), computes the running sum of R(rewards), rate of user staked at a time over the totalSupply
+        return
+            rewardPerTokenStored +
+            ((rewardRate * (block.timestamp - lastUpdateTime) * 1e18) /
+                _totalSupply);
+    }
 
     function earned(address account) public view returns (uint) {}
 
