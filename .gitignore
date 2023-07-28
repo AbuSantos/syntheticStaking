@@ -41,8 +41,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-./cache
-./artifacts
+/cache
+/artifacts
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
